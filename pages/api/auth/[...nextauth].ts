@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { type AuthOptions, type SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@/generated/prisma";
@@ -15,7 +15,7 @@ export const authOptions = {
     }),
   ],
   session: {
-    strategy: "database",
+    strategy: 'jwt' as SessionStrategy,
   },
   callbacks: {
     session: async ({ session, user }: any) => {
