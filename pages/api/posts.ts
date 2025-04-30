@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import prisma from '../../src/lib/prisma';
+import { prisma } from '../../src/lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -15,7 +15,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const posts = await prisma.post.findMany({
           include: {
             author: true,
-            comments: true,
+            comments: {
+              include: {
+                author: true
+              }
+            }
           },
         });
         return res.json(posts);
@@ -27,7 +31,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         include: {
           author: true,
-          comments: true,
+          comments: {
+            include: {
+              author: true
+            }
+          }
         },
       });
 

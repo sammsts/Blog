@@ -3,10 +3,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchPostById, addComment } from '../../src/utils/api';
 import Loader from '../../components/Loader';
 import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function PostPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { data: session } = useSession();
   const { id } = router.query;
 
   const { data: post, isLoading } = useQuery({
@@ -49,6 +51,21 @@ export default function PostPage() {
     }
   };
 
+  const handleDeleteComment = async (commentId: number) => {
+    if (confirm('Tem certeza que deseja deletar este comentário?')) {
+      try {
+        await fetch(`/api/comments?id=${commentId}`, {
+          method: 'DELETE',
+        });
+  
+        queryClient.invalidateQueries({ queryKey: ['post', id] });
+      } catch (error) {
+        alert('Erro ao deletar comentário');
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen px-6 py-12">
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -63,7 +80,15 @@ export default function PostPage() {
             post.comments.map((comment: any) => (
               <div key={comment.id} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-sm">
                 <p className="text-gray-800 mb-2">{comment.content}</p>
-                <small className="text-gray-600">Por: {comment.author.name}</small>
+                <small className="text-gray-600">Por: {comment?.author?.name}</small>
+                {session?.user?.email === comment.author?.email && (
+                  <button
+                    onClick={() => handleDeleteComment(comment.id)}
+                    className="text-red-600 hover:underline ml-2"
+                  >
+                    Deletar
+                  </button>
+                )}
               </div>
             ))
           ) : (
