@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: {
         title,
         content,
-        author: { connect: { email: session?.user?.email } },
+        author: { connect: { email: session?.user?.email as string } },
       },
     });
 
