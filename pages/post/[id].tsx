@@ -43,9 +43,9 @@ export default function PostPage() {
   // Função para lidar com o envio do comentário
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (comment.trim()) {
+    if (typeof id === 'string' && comment.trim()) {
       mutation.mutate({ postId: id, content: comment });
-      setComment(''); // Limpar o campo de comentário após envio
+      setComment('');
     }
   };
 
@@ -60,7 +60,7 @@ export default function PostPage() {
         <div className="border-t pt-6 p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comentários</h2>
           {post.comments.length > 0 ? (
-            post.comments.map((comment) => (
+            post.comments.map((comment: any) => (
               <div key={comment.id} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-sm">
                 <p className="text-gray-800 mb-2">{comment.content}</p>
                 <small className="text-gray-600">Por: {comment.author.name}</small>

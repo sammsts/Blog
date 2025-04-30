@@ -41,7 +41,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts?.map((post) => (
+            {posts?.map((post: { id: string; title: string; content: string }) => (
               <div key={post.id} className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <Link href={`/post/${post.id}`}>
                   <div className="p-6">

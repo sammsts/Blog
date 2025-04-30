@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { prisma } from '../../src/lib/prisma';
+import prisma from '../../src/lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       return res.json(post);
     } catch (error) {
-      return res.status(500).json({ message: 'Erro ao buscar o post', error: error?.message });
+      return res.status(500).json({ message: 'Erro ao buscar o post', error: (error as Error).message });
     }
   }
 
