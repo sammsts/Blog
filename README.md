@@ -1,3 +1,6 @@
+# Blog
+Blog with list of posts, individual page with comments and authentication via Google (NextAuth). Readers can comment on the posts. Uses Next.js, React Query for dynamic data, and Prisma with PostgreSQL or SQLite as a database.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
